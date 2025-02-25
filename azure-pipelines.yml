@@ -9,10 +9,6 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-parameters:
-- name: token
-  type: string
-
 steps:
 - script: |
     dotnet test tests
@@ -33,7 +29,7 @@ steps:
   displayName: ✉️  Publish Pacts
   env:
     PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
-    PACT_BROKER_TOKEN: ${{ parameters.token }}
+    PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
     GIT_COMMIT: $(Build.SourceVersion)
     GIT_BRANCH: $(Build.SourceBranchName)
     BUILD_URI: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
@@ -51,7 +47,7 @@ steps:
   displayName: 🎛  Can I deploy?
   env:
     PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
-    PACT_BROKER_TOKEN: ${{ parameters.token }}
+    PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
     GIT_COMMIT: $(Build.SourceVersion)
     PACTICIPANT: "pactflow-example-consumer-dotnet"
 
@@ -68,6 +64,6 @@ steps:
   displayName: 🚀  Deploy
   env:
     PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
-    PACT_BROKER_TOKEN: ${{ parameters.token }}
+    PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
     GIT_COMMIT: $(Build.SourceVersion)
     PACTICIPANT: "pactflow-example-consumer-dotnet"
