@@ -26,7 +26,7 @@ steps:
       -e PACT_BROKER_TOKEN pactfoundation/pact-cli:latest \
       broker publish \
           pacts \
-        --version ${GIT_COMMIT} \
+        --consumer-app-version ${GIT_COMMIT} \
         --branch ${GIT_BRANCH} \
         --build-url ${BUILD_URI}
   displayName: ✉️  Publish Pacts
