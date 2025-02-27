@@ -40,7 +40,9 @@ steps:
       broker can-i-deploy \
         --pacticipant ${PACTICIPANT} \
         --version ${GIT_COMMIT} \
-        --to-environment production
+        --to-environment production \
+    	  --retry-while-unknown 5 \
+    	  --retry-interval 10
   displayName: 🎛  Can I deploy?
   env:
     PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
