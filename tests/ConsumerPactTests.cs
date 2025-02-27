@@ -24,7 +24,7 @@ namespace tests
 
             products = new List<object>()
             {
-                new { id = "27", name = "burger", type = "food", foo = "bar" }
+                new { id = "27", name = "burger", type = "food", bar = "foo" }
             };
 
             var Config = new PactConfig
