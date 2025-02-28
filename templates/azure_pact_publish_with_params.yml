@@ -1,5 +1,6 @@
 parameters:
   - name: broker_url
+    default: ""
     # description: "The url of your pact broker"
     # required: true
   - name: pactfiles
@@ -40,9 +41,9 @@ steps:
     printenv
     ./templates/publishPactFiles.sh
   displayName: ✉️  Publish Pacts
-  # env:
+  env:
     # PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
-    # PACT_BROKER_BASE_URL: ${{ coalesce(parameters.broker_url, variables.PACT_BROKER_BASE_URL) }}
+    PACT_BROKER_BASE_URL: ${{ coalesce(parameters.broker_url, $PACT_BROKER_BASE_URL) }}
     # PACT_BROKER_TOKEN: ${{ coalesce(parameters.token, variables.PACT_BROKER_TOKEN) }}
     # PACT_BROKER_USERNAME: ${{ coalesce(parameters.username, variables.PACT_BROKER_USERNAME) }}
     # PACT_BROKER_PASSWORD: ${{ coalesce(parameters.password, variables.PACT_BROKER_PASSWORD) }}
