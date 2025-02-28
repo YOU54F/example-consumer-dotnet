@@ -8,10 +8,10 @@ pool:
 variables:
   PACTICIPANT: "pactflow-example-consumer-dotnet"
   PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
-  # template: templates/azure_pact_variables.yml
-  BRANCH: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
-  COMMIT: $(Build.SourceVersion)
-  BUILD_URI: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
+  template: templates/azure_pact_variables.yml@self
+  # BRANCH: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+  # COMMIT: $(Build.SourceVersion)
+  # BUILD_URI: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
 
 steps:
 - script: |
@@ -27,11 +27,7 @@ steps:
 - template: templates/azure_pact_publish_with_params.yml@self
   parameters:
     pactfiles: pacts
-    # broker_url: $(PACT_BROKER_BASE_URL)
     token: $(PACT_BROKER_TOKEN)
-    # branch: $(BRANCH)
-    # version: $(COMMIT)
-    # build_uri: $(BUILD_URI)
 - template: templates/azure_pact_can_i_deploy.yml
 - template: templates/azure_pact_record_deployment.yml
 
