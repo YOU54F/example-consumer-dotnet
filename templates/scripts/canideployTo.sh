@@ -64,6 +64,9 @@ if [ "$main_branch" == "true" ]; then
   echo "You set main-branch"
   MAIN_BRANCH_COMMAND="--main-branch"
 fi
+# using branch and version results in this error message
+# broker can-i-deploy --pacticipant pactflow-example-consumer-dotnet --version dc678fd42187a4e6e74d19e3a04ea8dbdd9ad55e --to-environment production --branch templates
+# {"errors":["A version number and latest flag cannot both be specified for pactflow-example-consumer-dotnet"]}
 
 BRANCH_COMMAND=
 if [ "$BRANCH" ]; then
@@ -96,7 +99,7 @@ echo "
   COMMAND: '$COMMAND'
   OPTIONS: '${OPTIONS[*]}'"
 
-echo docker run --rm \
+docker run --rm \
   -e PACT_BROKER_BASE_URL=$PACT_BROKER_BASE_URL \
   $PACT_BROKER_TOKEN_ENV_VAR_CMD \
   $PACT_BROKER_USERNAME_ENV_VAR_CMD \
