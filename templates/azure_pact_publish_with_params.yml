@@ -22,8 +22,7 @@ parameters:
 
 steps:
 - script: |
-    printenv
-    ./templates/publishPactFiles.sh
+    ./templates/scripts/publishPactFiles.sh
   displayName: ✉️  Publish Pacts
   env:
     PACT_BROKER_BASE_URL: ${{ coalesce(parameters.broker_url, variables.PACT_BROKER_BASE_URL) }}

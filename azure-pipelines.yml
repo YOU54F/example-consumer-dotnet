@@ -6,34 +6,42 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  - template: templates/azure_pact_variables.yml@self
+  - template: templates/azure_pact_variables.yml@self # re-use common variables, to set commit, branch and build uri
   - name: PACTICIPANT
     value: "pactflow-example-consumer-dotnet"
   - name: PACT_BROKER_BASE_URL
     value: https://testdemo.pactflow.io
-  # BRANCH: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
-  # COMMIT: $(Build.SourceVersion)
-  # BUILD_URI: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
 
 steps:
-- script: printenv
 - script: |
     dotnet test tests
   displayName: ✅  Test
+
+
+
+## Executing recommend workflow manually, via re-usable templates in same repo, with inputs.
+
+- template: templates/azure_pact_publish_with_params.yml@self # by default it uses main, use self to read from current repo
+  parameters:
+    pactfiles: pacts
+    token: $(PACT_BROKER_TOKEN) # token should be set as secret variable, in users pipeline
+- template: templates/azure_pact_can_i_deploy_with_params.yml
+  parameters:
+    environment: production
+    token: $(PACT_BROKER_TOKEN) # token should be set as secret variable, in users pipeline
+- template: templates/azure_pact_record_deployment_with_params.yml
+  parameters:
+    environment: production
+    token: $(PACT_BROKER_TOKEN) # token should be set as secret variable, in users pipeline
+
+## Executing recommend workflow manually, via templates in same repo, following below docker commands
 
 # - template: templates/azure_pact_publish.yml
 # - template: templates/azure_pact_can_i_deploy.yml
 # - template: templates/azure_pact_record_deployment.yml
 
-
-# by default it uses main, use self to read from current repo
-- template: templates/azure_pact_publish_with_params.yml@self
-  parameters:
-    pactfiles: pacts
-    token: $(PACT_BROKER_TOKEN)
-- template: templates/azure_pact_can_i_deploy.yml
-- template: templates/azure_pact_record_deployment.yml
-
+## Executing recommend workflow manually, via docker
+# Publish pacts -> Can-I-Deploy to Prod (with Polling) -> Record Deployment (master branch)
 
 # - script: |
 #     docker run \
