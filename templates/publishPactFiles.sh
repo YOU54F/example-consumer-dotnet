@@ -42,7 +42,7 @@ if [ "$tag_with_git_branch" ]; then
   TAG_WITH_BRANCH_COMMAND="--tag-with-git-branch"
 fi
 VERSION_COMMAND=
-if [ "$version" ]; then
+if [ "$COMMIT" ]; then
   echo "You set set"
   VERSION_COMMAND="--consumer-app-version $COMMIT"
 else 
