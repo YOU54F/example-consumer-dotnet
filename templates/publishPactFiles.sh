@@ -17,7 +17,7 @@ PACT_BROKER_BASE_URL: $PACT_BROKER_BASE_URL
 version: $version
 pactfiles: $pactfiles
 branch: $branch
-build_url: $build_url
+build_uri: $build_url
 tag: $tag
 """
 

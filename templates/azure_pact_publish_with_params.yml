@@ -31,19 +31,12 @@ parameters:
     # description: "uri to the pipeline build"
 
 # variables:
-#   - name: BRANCH
-#     value: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
-#   - name: COMMIT
-#     value: $(Build.SourceVersion)
-#   - name: BUILD_URI
-#     value: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
+#   BRANCH: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+#   COMMIT: $(Build.SourceVersion)
+#   BUILD_URI: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
 
 steps:
-- script: |
-    ls ./templates/
-    cat templates/foo.sh
-    pwd
-    ./templates/foo.sh
+- script: ./templates/publishPactFiles.sh
   displayName: ✉️  Publish Pacts
   env:
     # PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)

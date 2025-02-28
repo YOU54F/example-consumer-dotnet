@@ -6,16 +6,11 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  - name: PACTICIPANT
-    value: "pactflow-example-consumer-dotnet"
-  - name: PACT_BROKER_BASE_URL
-    value: https://testdemo.pactflow.io
-  - name: BRANCH
-    value: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
-  - name: COMMIT
-    value: $(Build.SourceVersion)
-  - name: BUILD_URI
-    value: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
+  PACTICIPANT: "pactflow-example-consumer-dotnet"
+  PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
+  BRANCH: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+  COMMIT: $(Build.SourceVersion)
+  BUILD_URI: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
 
 steps:
 - script: |
