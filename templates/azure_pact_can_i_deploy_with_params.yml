@@ -1,64 +1,60 @@
 # TODO
 
-name: "can-i-deploy"
-description: "Checks other applications with this tag are compatible with yours"
-branding:
-  icon: "check"
-  color: "green"
-inputs:
-  broker_url:
-    description: "The url of your pact broker"
-    required: true
-  token:
-    description: "Your pact broker token (required for PactFlow)"
-  username:
-    description: "Your pact broker username"
-  password:
-    description: "Your pact broker password"
-  application_name:
-    description: "The name of your application (usually project name)"
-    required: true
-  version:
-    description: "The version of your application (defaults to version of the code where the action is run from)"
-  latest:
-    description: "The latest tag value of your application (i.e. 'test' or 'stage')"
-  to_environment:
-    description: "The environment you wish to deploy to (test / stage / prod etc...)"
-  to:
-    description: "The tag you wish to deploy to (test / stage / prod etc...)"
-  dry_run:
-    description: "When dry-run is enabled, always exit process with a success code."
-  branch:
-    description: "The branch of the version for which you want to check the verification results."
-  main_branch:
-    description: "Use the latest version of the configured main branch of the pacticipant as the version for which you want to check the verification results. Default: false"
-  retry_while_unknown:
-    description: |
-      Optional (default 0): the number of times to retry while there is an unknown
-      verification result (ie. the provider verification is likely still running)
-    required: false
-  retry_interval:
-    description: |
-      Optional (default 10): The time between retries in seconds.
-      Use in conjunction with --retry-while-unknown
-    required: false
-runs:
-  using: "composite"
-  steps:
-    - run: ${GITHUB_ACTION_PATH}/canideployTo.sh
-      shell: bash
-      env: 
-        PACT_BROKER_BASE_URL: ${{ inputs.broker_url || env.PACT_BROKER_BASE_URL }} 
-        PACT_BROKER_TOKEN: ${{ inputs.token || env.PACT_BROKER_TOKEN }} 
-        PACT_BROKER_USERNAME: ${{ inputs.username || env.PACT_BROKER_USERNAME }} 
-        PACT_BROKER_PASSWORD: ${{ inputs.password || env.PACT_BROKER_PASSWORD }} 
-        application_name: ${{ inputs.application_name || env.application_name }}
-        version: ${{ inputs.version || env.version }}
-        to_environment: ${{ inputs.to_environment || env.to_environment }}
-        to: ${{ inputs.to || env.to }}
-        latest: ${{ inputs.latest }}
-        retry_while_unknown: ${{ inputs.retry_while_unknown || env.retry_while_unknown }}
-        retry_interval: ${{ inputs.retry_interval || env.retry_interval }}
-        dry_run: ${{ inputs.dry_run }}
-        branch: ${{ inputs.branch }}
-        main_branch: ${{ inputs.main_branch }}
+# name: "can-i-deploy"
+# description: "Checks other applications with this tag are compatible with yours"
+
+parameters:
+  - name: broker_url # "The url of your pact broker"
+  - name: token # "Your pact broker token (required for PactFlow)"
+    default: ""
+  - name: username # "Your pact broker username"
+    default: ""
+  - name: password # "Your pact broker password"
+    default: ""
+  - name: application_name # "The name of your application (usually project name)"
+    default: false
+  - name: version # "The version of your application (defaults to version of the code where the action is run from)"
+    default: ""
+  - name: latest # "The latest tag value of your application (i.e. 'test' or 'stage')"
+    default: ""
+  - name: to_environment # "The environment you wish to deploy to (test / stage / prod etc...)"
+    default: ""
+  - name: to # "The tag you wish to deploy to (test / stage / prod etc...)"
+    default: ""
+  - name: dry_run # "When dry-run is enabled, always exit process with a success code."
+    type: boolean
+    default: false
+  - name: branch # "The branch of the version for which you want to check the verification results."
+    default: ""
+  - name: main_branch # "Use the latest version of the configured main branch of the pacticipant as the version for which you want to check the verification results. Default: false"
+    type: boolean
+    default: false
+  - name: retry_while_unknown
+    default: 0
+    type: number
+    #   Optional (default 0): the number of times to retry while there is an unknown
+    #   verification result (ie. the provider verification is likely still running)
+  - name: retry_interval
+    #   Optional (default 10): The time between retries in seconds.
+    #   Use in conjunction with --retry-while-unknown
+    default: 10
+    type: number
+steps:
+- script: |
+    ./templates/scripts/canideployTo.sh
+  displayName: Can I Deploy
+  env: 
+    PACT_BROKER_BASE_URL: ${{ coalesce(parameters.broker_url, variables.PACT_BROKER_BASE_URL) }}
+    PACT_BROKER_TOKEN: ${{ coalesce(parameters.token, variables.PACT_BROKER_TOKEN) }}
+    PACT_BROKER_USERNAME: ${{ coalesce(parameters.username, variables.PACT_BROKER_USERNAME) }}
+    PACT_BROKER_PASSWORD: ${{ coalesce(parameters.password, variables.PACT_BROKER_PASSWORD) }}
+    COMMIT: ${{ coalesce(parameters.version, variables.COMMIT) }}
+    application_name: ${{ coalesce(parameters.application_name || variables.application_name }}
+    to_environment: ${{ coalesce(parameters.to_environment || variables.to_environment }}
+    to: ${{ coalesce(parameters.to || variables.to }}
+    latest: ${{ parameters.latest }}
+    retry_while_unknown: ${{ coalesce(parameters.retry_while_unknown || variables.retry_while_unknown }}
+    retry_interval: ${{ coalesce(parameters.retry_interval || variables.retry_interval }}
+    dry_run: ${{ parameters.dry_run }}
+    branch: ${{ parameters.branch }}
+    main_branch: ${{ parameters.main_branch }}

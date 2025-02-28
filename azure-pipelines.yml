@@ -27,12 +27,14 @@ steps:
     token: $(PACT_BROKER_TOKEN) # token should be set as secret variable, in users pipeline
 - template: templates/azure_pact_can_i_deploy_with_params.yml
   parameters:
-    environment: production
-    token: $(PACT_BROKER_TOKEN) # token should be set as secret variable, in users pipeline
+    to_environment: production
+    application_name: $(PACTICIPANT)
+    token: $(PACT_BROKER_TOKEN)
 - template: templates/azure_pact_record_deployment_with_params.yml
   parameters:
     environment: production
-    token: $(PACT_BROKER_TOKEN) # token should be set as secret variable, in users pipeline
+    application_name: $(PACTICIPANT)
+    token: $(PACT_BROKER_TOKEN)
 
 ## Executing recommend workflow manually, via templates in same repo, following below docker commands
 

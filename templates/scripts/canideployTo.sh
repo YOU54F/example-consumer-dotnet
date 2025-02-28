@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-if [ "$version" != "" ] && [ "$latest" != "" ]; then
+if [ "$COMMIT" != "" ] && [ "$latest" != "" ]; then
   echo "ERROR: specify only 'version' or 'latest', not both."
   exit 1
 fi
 
-if [ "$version" == "" ]; then
-  version=$(git rev-parse HEAD)
+if [ "$COMMIT" == "" ]; then
+  COMMIT=$(git rev-parse HEAD)
 fi
-[ "$version" != "" ] && VERSION="--version $version"
+[ "$COMMIT" != "" ] && VERSION="--version $COMMIT"
 [ "$latest" != "" ] && VERSION="--latest $latest"
 
 MISSING=()
