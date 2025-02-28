@@ -10,14 +10,18 @@ if [ ${#MISSING[@]} -gt 0 ]; then
   exit 1
 fi
 
-# build_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+if [ -z "$build_uri" ]; then
+  build_url="$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)"
+else
+  build_url="$build_uri"
+fi
 
 echo """
 PACT_BROKER_BASE_URL: $PACT_BROKER_BASE_URL
 version: $version
 pactfiles: $pactfiles
 branch: $branch
-build_uri: $build_url
+build_url: $build_url
 tag: $tag
 """
 
