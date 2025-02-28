@@ -1,0 +1,11 @@
+# name: pact-cli
+# description: A standalone pact command line executable using the ruby pact implementation and Traveling Ruby
+parameters:
+  - name: PACT_CLI_VERSION
+    default: "" 
+
+steps:
+- script: |
+    ./templates/scripts/cli.sh
+  displayName: Setup Pact CLI
+- script: Write-Host "##vso[task.prependpath]$(Build.SourcesDirectory)/pact/bin"

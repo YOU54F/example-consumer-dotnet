@@ -17,6 +17,8 @@ steps:
     dotnet test tests
   displayName: ✅  Test
 
+- template: templates/azure_pact_cli.yml@self # by default it uses main, use self to read from current repo
+- script: pact-broker version
 
 ## Executing recommend workflow manually, via re-usable templates in same repo, with inputs.
 
