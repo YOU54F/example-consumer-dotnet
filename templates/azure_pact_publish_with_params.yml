@@ -39,7 +39,7 @@ parameters:
 #     value: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
 
 steps:
-- script: >
+- script: |
     ls
     pwd
     ./templates/publishPactFiles.sh
