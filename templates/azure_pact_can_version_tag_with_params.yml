@@ -1,0 +1,44 @@
+# TODO
+
+name: "create-version-tag"
+description: "Creates a tag on the specified version"
+branding:
+  icon: "bookmark"
+  color: "green"
+inputs:
+  broker_url:
+    description: "The url of your pact broker"
+    required: true
+  token:
+    description: "Your pact broker token (required for PactFlow)"
+  username:
+    description: "Your pact broker username"
+  password:
+    description: "Your pact broker password"
+  application_name:
+    description: "The name of your application (usually project name)"
+    required: true
+  version:
+    description: "Version to tag"
+  tag:
+    description: "Tag to create"
+    required: true
+  tag_with_git_branch:
+    description: "Tag pacticipant version with the name of the current git branch (Default: false)"
+  auto_create_version:
+    description: "Automatically create the pacticipant version if it does not exist"
+runs:
+  using: "composite"
+  steps:
+    - run: ${GITHUB_ACTION_PATH}/createTag.sh
+      shell: bash
+      env: 
+        PACT_BROKER_BASE_URL: ${{ inputs.broker_url || env.PACT_BROKER_BASE_URL }} 
+        PACT_BROKER_TOKEN: ${{ inputs.token || env.PACT_BROKER_TOKEN }} 
+        PACT_BROKER_USERNAME: ${{ inputs.username || env.PACT_BROKER_USERNAME }} 
+        PACT_BROKER_PASSWORD: ${{ inputs.password || env.PACT_BROKER_PASSWORD }} 
+        application_name: ${{ inputs.application_name || env.application_name }}
+        version: ${{ inputs.version || env.version }}
+        tag: ${{ inputs.tag || env.tag }}
+        tag_with_git_branch: ${{ inputs.tag_with_git_branch }}
+        auto_create_version: ${{ inputs.auto_create_version }}

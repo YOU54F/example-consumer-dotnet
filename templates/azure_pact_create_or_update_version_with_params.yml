@@ -1,0 +1,39 @@
+# TODO
+
+name: "create-or-update-version"
+description: "Create or update pacticipant version by version number"
+branding:
+  icon: "check"
+  color: "green"
+inputs:
+  broker_url:
+    description: "The url of your pact broker"
+    required: true
+  token:
+    description: "Your pact broker token (required for PactFlow)"
+  username:
+    description: "Your pact broker username"
+  password:
+    description: "Your pact broker password"
+  application_name:
+    description: "The name of your application (usually project name)"
+    required: true
+  version:
+    description: "The version of your application (defaults to version of the code where the action is run from)"
+  branch:
+    description: "The repository branch name"
+  tag:
+    description: "Tag name for pacticipant version."
+runs:
+  using: "composite"
+  steps:
+    - run: ${GITHUB_ACTION_PATH}/createOrUpdateVersion.sh
+      shell: bash
+      env: 
+        PACT_BROKER_BASE_URL: ${{ inputs.broker_url || env.PACT_BROKER_BASE_URL }} 
+        PACT_BROKER_TOKEN: ${{ inputs.token || env.PACT_BROKER_TOKEN }} 
+        PACT_BROKER_USERNAME: ${{ inputs.username || env.PACT_BROKER_USERNAME }} 
+        PACT_BROKER_PASSWORD: ${{ inputs.password || env.PACT_BROKER_PASSWORD }} 
+        application_name: ${{ inputs.application_name || env.application_name }}
+        version: ${{ inputs.version || env.version }}
+        branch: ${{ inputs.branch }}
