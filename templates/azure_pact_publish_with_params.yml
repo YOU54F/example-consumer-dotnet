@@ -1,26 +1,26 @@
 parameters:
   - name: broker_url
-    description: "The url of your pact broker"
-    required: true
+    # description: "The url of your pact broker"
+    # required: true
   - name: pactfiles
-    description: "Location of the Pact files"
-    required: true
+    # description: "Location of the Pact files"
+    # required: true
   - name: token
-    description: "Your pact broker token (required for PactFlow)"
+    # description: "Your pact broker token (required for PactFlow)"
   - name: username
-    description: "Your pact broker username"
+    # description: "Your pact broker username"
   - name: password
-    description: "Your pact broker password"
+    # description: "Your pact broker password"
   - name: version
-    description: "Version to publish"
+    # description: "Version to publish"
   - name: branch
-    description: "branch to associate version of pact with"  
+    # description: "branch to associate version of pact with"  
   - name: tag
-    description: "tag to associate version of pact with"
+    # description: "tag to associate version of pact with"
   - name: tag_with_git_branch
-    description: "tag pact with git branch"
+    # description: "tag pact with git branch"
   - name: build_uri
-    description: "uri to the pipeline build"
+    # description: "uri to the pipeline build"
 
 variables:
   - name: BRANCH
