@@ -1,0 +1,47 @@
+parameters:
+  - name: broker_url
+    description: "The url of your pact broker"
+    required: true
+  - name: pactfiles
+    description: "Location of the Pact files"
+    required: true
+  - name: token
+    description: "Your pact broker token (required for PactFlow)"
+  - name: username
+    description: "Your pact broker username"
+  - name: password
+    description: "Your pact broker password"
+  - name: version
+    description: "Version to publish"
+  - name: branch
+    description: "branch to associate version of pact with"  
+  - name: tag
+    description: "tag to associate version of pact with"
+  - name: tag_with_git_branch
+    description: "tag pact with git branch"
+  - name: build_uri
+    description: "uri to the pipeline build"
+
+variables:
+  - name: BRANCH
+    value: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+  - name: COMMIT
+    value: $(Build.SourceVersion)
+  - name: BUILD_URI
+    value: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
+
+steps:
+- script: ./publishPactFiles.sh
+  displayName: ✉️  Publish Pacts
+  env:
+    # PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
+    PACT_BROKER_BASE_URL: ${{ parameters.broker_url || env.PACT_BROKER_BASE_URL }}
+    PACT_BROKER_TOKEN: ${{ parameters.token || env.PACT_BROKER_TOKEN }}
+    PACT_BROKER_USERNAME: ${{ parameters.username || env.PACT_BROKER_USERNAME }}
+    PACT_BROKER_PASSWORD: ${{ parameters.password || env.PACT_BROKER_PASSWORD }}
+    pactfiles: ${{ parameters.pactfiles }}
+    version: ${{ parameters.version || env.COMMIT }}
+    tag: ${{ parameters.tag || env.tag }}
+    branch: ${{ parameters.branch || env.BRANCH }}
+    tag_with_git_branch: ${{ parameters.tag_with_git_branch }}
+    build_uri: ${{ parameters.build_uri || env.BUILD_URI }}

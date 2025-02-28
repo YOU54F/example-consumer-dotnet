@@ -7,7 +7,7 @@ steps:
       -e PACT_BROKER_TOKEN pactfoundation/pact-cli:latest \
       broker can-i-deploy \
         --pacticipant ${PACTICIPANT} \
-        --version ${GIT_COMMIT} \
+        --version ${COMMIT} \
         --to-environment production \
     	  --retry-while-unknown 5 \
     	  --retry-interval 10

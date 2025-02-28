@@ -10,9 +10,9 @@ variables:
     value: "pactflow-example-consumer-dotnet"
   - name: PACT_BROKER_BASE_URL
     value: https://testdemo.pactflow.io
-  - name: GIT_BRANCH
+  - name: BRANCH
     value: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
-  - name: GIT_COMMIT
+  - name: COMMIT
     value: $(Build.SourceVersion)
   - name: BUILD_URI
     value: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
@@ -22,9 +22,19 @@ steps:
     dotnet test tests
   displayName: ✅  Test
 
-- template: templates/azure_pact_publish.yml
+# - template: templates/azure_pact_publish.yml
+# - template: templates/azure_pact_can_i_deploy.yml
+# - template: templates/azure_pact_record_deployment.yml
+
+
+- template: templates/azure_pact_publish_with_params.yml
+  parameters:
+    pactfiles: pacts
+    broker_url: $(PACT_BROKER_BASE_URL)
+    token: $(PACT_BROKER_TOKEN)
 - template: templates/azure_pact_can_i_deploy.yml
 - template: templates/azure_pact_record_deployment.yml
+
 
 # - script: |
 #     docker run \

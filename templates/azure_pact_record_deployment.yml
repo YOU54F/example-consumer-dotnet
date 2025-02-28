@@ -7,7 +7,7 @@ steps:
       -e PACT_BROKER_TOKEN pactfoundation/pact-cli:latest \
       broker record_deployment \
           --pacticipant ${PACTICIPANT} \
-          --version ${GIT_COMMIT} \
+          --version ${COMMIT} \
           --environment production
   displayName: 🚀  Deploy
   env:
