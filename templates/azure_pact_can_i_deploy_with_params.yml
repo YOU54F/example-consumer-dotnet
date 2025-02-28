@@ -5,6 +5,7 @@
 
 parameters:
   - name: broker_url # "The url of your pact broker"
+    default: ""
   - name: token # "Your pact broker token (required for PactFlow)"
     default: ""
   - name: username # "Your pact broker username"
