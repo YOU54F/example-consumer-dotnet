@@ -14,6 +14,7 @@ variables:
   # BUILD_URI: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
 
 steps:
+- script: printenv
 - script: |
     dotnet test tests
   displayName: ✅  Test
