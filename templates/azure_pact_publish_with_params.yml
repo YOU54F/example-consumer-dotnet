@@ -40,7 +40,8 @@ parameters:
 
 steps:
 - script: |
-    ls
+    ls ./templates/
+    cat ./templates/publishPactFiles.sh
     pwd
     ./templates/publishPactFiles.sh
   displayName: ✉️  Publish Pacts
