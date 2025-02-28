@@ -96,7 +96,7 @@ echo "
   COMMAND: '$COMMAND'
   OPTIONS: '${OPTIONS[*]}'"
 
-docker run --rm \
+echo docker run --rm \
   -e PACT_BROKER_BASE_URL=$PACT_BROKER_BASE_URL \
   $PACT_BROKER_TOKEN_ENV_VAR_CMD \
   $PACT_BROKER_USERNAME_ENV_VAR_CMD \

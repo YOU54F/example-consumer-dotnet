@@ -7,5 +7,5 @@ parameters:
 steps:
 - script: |
     ./templates/scripts/cli.sh
+    echo '##vso[task.prependpath]$(Build.Repository.LocalPath)/pact/bin'
   displayName: Setup Pact CLI
-- script: echo '##vso[task.prependpath]$(Build.Repository.LocalPath)/pact/bin'
