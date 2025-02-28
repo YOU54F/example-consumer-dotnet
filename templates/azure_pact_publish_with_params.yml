@@ -22,26 +22,28 @@ parameters:
   - name: build_uri
     # description: "uri to the pipeline build"
 
-variables:
-  - name: BRANCH
-    value: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
-  - name: COMMIT
-    value: $(Build.SourceVersion)
-  - name: BUILD_URI
-    value: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
+# variables:
+#   - name: BRANCH
+#     value: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+#   - name: COMMIT
+#     value: $(Build.SourceVersion)
+#   - name: BUILD_URI
+#     value: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
 
 steps:
 - script: ./publishPactFiles.sh
   displayName: ✉️  Publish Pacts
   env:
     # PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
-    PACT_BROKER_BASE_URL: ${{ parameters.broker_url || env.PACT_BROKER_BASE_URL }}
-    PACT_BROKER_TOKEN: ${{ parameters.token || env.PACT_BROKER_TOKEN }}
-    PACT_BROKER_USERNAME: ${{ parameters.username || env.PACT_BROKER_USERNAME }}
-    PACT_BROKER_PASSWORD: ${{ parameters.password || env.PACT_BROKER_PASSWORD }}
+    PACT_BROKER_BASE_URL: ${{ coalesce(parameters.broker_url, env.PACT_BROKER_BASE_URL) }}
+    PACT_BROKER_TOKEN: ${{ coalesce(parameters.token, env.PACT_BROKER_TOKEN) }}
+    PACT_BROKER_USERNAME: ${{ coalesce(parameters.username, env.PACT_BROKER_USERNAME) }}
+    PACT_BROKER_PASSWORD: ${{ coalesce(parameters.password, env.PACT_BROKER_PASSWORD) }}
     pactfiles: ${{ parameters.pactfiles }}
-    version: ${{ parameters.version || env.COMMIT }}
-    tag: ${{ parameters.tag || env.tag }}
-    branch: ${{ parameters.branch || env.BRANCH }}
+    version: ${{ coalesce(parameters.version, env.COMMIT) }}
+    tag: ${{ coalesce(parameters.tag, env.tag) }}
+    branch: ${{ coalesce(parameters.branch, env.BRANCH) }}
     tag_with_git_branch: ${{ parameters.tag_with_git_branch }}
-    build_uri: ${{ parameters.build_uri || env.BUILD_URI }}
+    build_uri: ${{ coalesce(parameters.build_uri, env.BUILD_URI) }}
+
+    
