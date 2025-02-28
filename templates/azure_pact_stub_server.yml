@@ -7,5 +7,5 @@ parameters:
 steps:
 - script: |
     curl -sSL https://raw.githubusercontent.com/YOU54F/pact-stub-server/refs/heads/master/scripts/install-stub-server-cli.sh | bash
-    echo '##vso[task.prependpath]$HOME/.pact/bin'
+    echo '##vso[task.prependpath]/home/vsts/.pact/bin'
   displayName: Setup Pact Stub Server

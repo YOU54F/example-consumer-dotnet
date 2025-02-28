@@ -7,5 +7,5 @@ parameters:
 steps:
 - script: |
     curl -sSL https://raw.githubusercontent.com/YOU54F/pact-reference/refs/heads/master/scripts/install-pact_verifier_cli.sh | bash
-    echo '##vso[task.prependpath]$HOME/.pact/bin'
+    echo '##vso[task.prependpath]/home/vsts/.pact/bin'
   displayName: Setup Pact Verifier CLI
