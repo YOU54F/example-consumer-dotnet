@@ -1,35 +1,24 @@
 parameters:
-  - name: broker_url
+  - name: pactfiles # "Location of the Pact files"
+    default: false 
+  - name: broker_url # "The url of your pact broker"
     default: ""
-    # description: "The url of your pact broker"
-    # required: true
-  - name: pactfiles
-    # description: "Location of the Pact files"
-    # required: true
-  - name: token
-    # description: "Your pact broker token (required for PactFlow)"
+  - name: token # description: "Your pact broker token (required for PactFlow)"
     default: ""
-  - name: username
+  - name: username # description: "Your pact broker username"
     default: ""
-    # description: "Your pact broker username"
-  - name: password
+  - name: password # description: "Your pact broker password"
     default: ""
-    # description: "Your pact broker password"
-  - name: version
+  - name: version # description: "Version to publish"
     default: ""
-    # description: "Version to publish"
-  - name: branch
+  - name: branch # description: "branch to associate version of pact with"  
     default: ""
-    # description: "branch to associate version of pact with"  
-  - name: tag
+  - name: tag # description: "tag to associate version of pact with"
     default: ""
-    # description: "tag to associate version of pact with"
-  - name: tag_with_git_branch
+  - name: tag_with_git_branch # description: "tag pact with git branch"
     default: ""
-    # description: "tag pact with git branch"
-  - name: build_uri
+  - name: build_uri # description: "uri to the pipeline build"
     default: ""
-    # description: "uri to the pipeline build"
 
 steps:
 - script: |
@@ -41,11 +30,11 @@ steps:
     PACT_BROKER_TOKEN: ${{ coalesce(parameters.token, variables.PACT_BROKER_TOKEN) }}
     PACT_BROKER_USERNAME: ${{ coalesce(parameters.username, variables.PACT_BROKER_USERNAME) }}
     PACT_BROKER_PASSWORD: ${{ coalesce(parameters.password, variables.PACT_BROKER_PASSWORD) }}
+    COMMIT: ${{ coalesce(parameters.version, variables.COMMIT) }}
+    BRANCH: ${{ coalesce(parameters.branch, variables.BRANCH) }}
+    BUILD_URI: ${{ coalesce(parameters.build_uri, variables.BUILD_URI) }}
     pactfiles: ${{ parameters.pactfiles }}
-    version: ${{ coalesce(parameters.version, variables.COMMIT) }}
     tag: ${{ coalesce(parameters.tag, variables.tag) }}
-    branch: ${{ coalesce(parameters.branch, variables.BRANCH) }}
     tag_with_git_branch: ${{ parameters.tag_with_git_branch }}
-    build_uri: ${{ coalesce(parameters.build_uri, variables.BUILD_URI) }}
 
     

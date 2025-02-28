@@ -10,25 +10,26 @@ if [ ${#MISSING[@]} -gt 0 ]; then
   exit 1
 fi
 
-if [ -z "$build_uri" ]; then
+if [ -z "$BUILD_URI" ]; then
+# todo update to read these env vars
   build_url="$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)"
 else
-  build_url="$build_uri"
+  build_url="$BUILD_URI"
 fi
 
 echo """
 PACT_BROKER_BASE_URL: $PACT_BROKER_BASE_URL
-version: $version
+version: $COMMIT
 pactfiles: $pactfiles
-branch: $branch
+branch: $BRANCH
 build_url: $build_url
 tag: $tag
 """
 
 BRANCH_COMMAND=
-if [ "$branch" ]; then
+if [ "$BRANCH" ]; then
   echo "You set branch"
-  BRANCH_COMMAND="--branch $branch"
+  BRANCH_COMMAND="--branch $BRANCH"
 fi
 TAG_COMMAND=
 if [ "$tag" ]; then
@@ -43,8 +44,9 @@ fi
 VERSION_COMMAND=
 if [ "$version" ]; then
   echo "You set set"
-  VERSION_COMMAND="--consumer-app-version $version"
-else
+  VERSION_COMMAND="--consumer-app-version $COMMIT"
+else 
+# todo update to azure
   VERSION_COMMAND="--consumer-app-version $GITHUB_SHA"
 fi
 
