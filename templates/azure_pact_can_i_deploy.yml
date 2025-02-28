@@ -1,0 +1,16 @@
+steps:
+- script: |
+    docker run \
+      --rm \
+      -v ${PWD}:${PWD} \
+      -e PACT_BROKER_BASE_URL \
+      -e PACT_BROKER_TOKEN pactfoundation/pact-cli:latest \
+      broker can-i-deploy \
+        --pacticipant ${PACTICIPANT} \
+        --version ${GIT_COMMIT} \
+        --to-environment production \
+    	  --retry-while-unknown 5 \
+    	  --retry-interval 10
+  displayName: 🎛  Can I deploy?
+  env:
+    PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
