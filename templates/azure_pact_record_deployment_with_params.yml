@@ -20,7 +20,7 @@ parameters:
   - name: application_instance # "The application instance to which the deployment has occurred 
     # a logical identifer required to differentiate deployments when there are multiple instances of the same application in an environment."
     default: ""
-  application_instance:
+
 - script: |
     ./templates/scripts/recordDeployment.sh
   displayName: Record Deployment
