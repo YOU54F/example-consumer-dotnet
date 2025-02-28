@@ -39,7 +39,7 @@ parameters:
 #     value: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
 
 steps:
-- script: ./publishPactFiles.sh
+- script: ./templates/publishPactFiles.sh
   displayName: ✉️  Publish Pacts
   env:
     # PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
