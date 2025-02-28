@@ -27,7 +27,8 @@ steps:
 # - template: templates/azure_pact_record_deployment.yml
 
 
-- template: templates/azure_pact_publish_with_params.yml
+# by default it uses main, use self to read from current repo
+- template: templates/azure_pact_publish_with_params.yml@self
   parameters:
     pactfiles: pacts
     broker_url: $(PACT_BROKER_BASE_URL)
