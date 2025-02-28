@@ -5,8 +5,8 @@ MISSING=()
 [ ! "$application_name" ] && MISSING+=("application_name")
 [ ! "$tag" ] && MISSING+=("tag")
 
-if [ "$version" == "" ]; then
-  version=$(git rev-parse HEAD)
+if [ "$COMMIT" == "" ]; then
+  COMMIT=$(git rev-parse HEAD)
 fi
 if [ ${#MISSING[@]} -gt 0 ]; then
   echo "ERROR: The following environment variables are not set:"
@@ -31,7 +31,7 @@ fi
 echo """
 PACT_BROKER_BASE_URL: $PACT_BROKER_BASE_URL
 application_name: $application_name
-version: $version
+version: $COMMIT
 tag: $tag
 """
 
@@ -63,7 +63,7 @@ docker run --rm \
   pactfoundation/pact-cli:latest \
   broker create-version-tag \
   --pacticipant "$application_name" \
-  --version "$version" \
+  --version "$COMMIT" \
   --tag "$tag" \
   $AUTO_CREATE_VERSION_COMMAND \
   $TAG_WITH_GIT_BRANCH_COMMAND

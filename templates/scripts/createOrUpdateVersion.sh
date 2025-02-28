@@ -10,12 +10,12 @@ if [ ${#MISSING[@]} -gt 0 ]; then
   exit 1
 fi
 
-if [ "$version" == "" ]; then
-  version=$(git rev-parse HEAD)
+if [ "$COMMIT" == "" ]; then
+  COMMIT=$(git rev-parse HEAD)
 fi
 
-if [ "$branch" = "" ]; then
-  branch=$(git rev-parse --abbrev-ref HEAD)
+if [ "$BRANCH" = "" ]; then
+  BRANCH=$(git rev-parse --abbrev-ref HEAD)
 fi
 
 TAG_COMMAND=
@@ -43,9 +43,9 @@ fi
 
 echo "
 PACT_BROKER_BASE_URL: '$PACT_BROKER_BASE_URL'
-version: '$version'
+version: '$COMMIT'
 application_name: '$application_name'
-branch: '$branch'
+branch: '$BRANCH'
 "
 
 docker run --rm \
@@ -56,6 +56,6 @@ docker run --rm \
     pactfoundation/pact-cli:latest \
     broker create-or-update-version \
     --pacticipant "$application_name" \
-    --version $version \
-    --branch $branch \
+    --version $COMMIT \
+    --branch $BRANCH \
     $TAG_COMMAND

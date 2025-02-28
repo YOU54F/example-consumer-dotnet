@@ -6,8 +6,8 @@ MISSING=()
 [ ! "$contract" ] && MISSING+=("contract")
 [ ! "$verification_results" ] && MISSING+=("verification_results")
 
-if [ "$version" == "" ]; then
-  version=$(git rev-parse HEAD)
+if [ "$COMMIT" == "" ]; then
+  COMMIT=$(git rev-parse HEAD)
 fi
 
 if [ ${#MISSING[@]} -gt 0 ]; then
@@ -21,11 +21,11 @@ VERIFICATION_RESULTS_CONTENT_TYPE=${verification_results_content_type:-"text/pla
 SPECIFICATION=${specification:-"oas"}
 verification_exit_code=${verification_exit_code:-0}
 
-verifier=${verifier:-'github-actions'}
+verifier=${verifier:-'azure-pipeline'}
 VERIFICATION_RESULTS_FORMAT=${verification_results_format:-'text'}
 
-if [ "$branch" = "" ]; then
-  branch=$(git rev-parse --abbrev-ref HEAD)
+if [ "$BRANCH" = "" ]; then
+  BRANCH=$(git rev-parse --abbrev-ref HEAD)
 fi
 
 TAG_COMMAND=
@@ -52,7 +52,7 @@ PACT_BROKER_BASE_URL: $PACT_BROKER_BASE_URL
 contract: $contract
 verification_results: $verification_results
 verification_exit_code: $verification_exit_code
-branch: $branch
+branch: $BRANCH
 build_url: $build_url
 """
 
@@ -65,8 +65,8 @@ docker run --rm \
   pactflow publish-provider-contract \
   $contract \
   --provider $application_name \
-  --provider-app-version $version \
-  --branch $branch \
+  --provider-app-version $COMMIT \
+  --branch $BRANCH \
   --specification $SPECIFICATION \
   --content-type $CONTRACT_FILE_CONTENT_TYPE \
   --verification-exit-code=$verification_exit_code \

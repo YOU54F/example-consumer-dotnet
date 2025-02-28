@@ -5,8 +5,8 @@ MISSING=()
 [ ! "$application_name" ] && MISSING+=("application_name")
 [ ! "$environment" ] && MISSING+=("environment")
 
-if [ "$version" == "" ]; then
-  version=$(git rev-parse HEAD)
+if [ "$COMMIT" == "" ]; then
+  COMMIT=$(git rev-parse HEAD)
 fi
 
 if [ ${#MISSING[@]} -gt 0 ]; then
@@ -34,7 +34,7 @@ fi
 echo "
   PACT_BROKER_BASE_URL: '$PACT_BROKER_BASE_URL'
   application_name: '$application_name'
-  version: '$version'
+  version: '$COMMIT'
   environment: '$environment'"
 
 docker run --rm \
@@ -45,5 +45,5 @@ docker run --rm \
   pactfoundation/pact-cli:latest \
   broker record-release \
   --pacticipant "$application_name" \
-  --version $version \
+  --version $COMMIT \
   --environment $environment

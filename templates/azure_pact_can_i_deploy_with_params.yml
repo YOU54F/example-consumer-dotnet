@@ -1,5 +1,3 @@
-# TODO
-
 # name: "can-i-deploy"
 # description: "Checks other applications with this tag are compatible with yours"
 
@@ -57,5 +55,5 @@ steps:
     retry_while_unknown: ${{ coalesce(parameters.retry_while_unknown , variables.retry_while_unknown) }}
     retry_interval: ${{ coalesce(parameters.retry_interval , variables.retry_interval) }}
     dry_run: ${{ parameters.dry_run }}
-    branch: ${{ parameters.branch }}
+    BRANCH: ${{ coalesce(parameters.branch, variables.BRANCH) }}
     main_branch: ${{ parameters.main_branch }}

@@ -4,7 +4,7 @@
 MISSING=()
 [ ! "$PACT_BROKER_BASE_URL" ] && MISSING+=("PACT_BROKER_BASE_URL")
 [ ! "$application_name" ] && MISSING+=("application_name")
-[ ! "$branch" ] && MISSING+=("branch")
+[ ! "$BRANCH" ] && MISSING+=("branch")
 
 if [ ${#MISSING[@]} -gt 0 ]; then
   echo "ERROR: The following environment variables are not set:"
@@ -43,7 +43,7 @@ fi
 echo "
   PACT_BROKER_BASE_URL: '$PACT_BROKER_BASE_URL'
   application_name: '$application_name'
-  branch: '$branch'
+  branch: '$BRANCH'
   error_when_not_found: $error_when_not_found
   OPTIONS: '$OPTIONS'
   "
@@ -56,5 +56,5 @@ docker run --rm \
   pactfoundation/pact-cli:latest \
   broker delete-branch \
   --pacticipant "$application_name" \
-  --branch "$branch" \
+  --branch "$BRANCH" \
   $OPTIONS

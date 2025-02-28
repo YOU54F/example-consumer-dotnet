@@ -1,39 +1,31 @@
-# TODO
+# TO TEST
 
-name: "record-release"
-description: "Record release of an application to an environment"
-branding:
-  icon: "check"
-  color: "green"
-inputs:
-  broker_url:
-    description: "The url of your pact broker"
-    required: true
-  token:
-    description: "Your pact broker token (required for PactFlow)"
-  username:
-    description: "Your pact broker username"
-  password:
-    description: "Your pact broker password"
-  application_name:
-    description: "The name of your application (usually project name)"
-    required: true
-  environment:
-    description: "The name of the environment that the pacticipant version was released to"
-    required: true
-  version:
-    description: "The version of your application (defaults to version of the code where the action is run from)"  
-runs:
-  using: "composite"
-  steps:
-    - run: ${GITHUB_ACTION_PATH}/recordRelease.sh
-      shell: bash
-      env: 
-        PACT_BROKER_BASE_URL: ${{ inputs.broker_url || env.PACT_BROKER_BASE_URL }} 
-        PACT_BROKER_TOKEN: ${{ inputs.token || env.PACT_BROKER_TOKEN }} 
-        PACT_BROKER_USERNAME: ${{ inputs.username || env.PACT_BROKER_USERNAME }} 
-        PACT_BROKER_PASSWORD: ${{ inputs.password || env.PACT_BROKER_PASSWORD }} 
-        application_name: ${{ inputs.application_name || env.application_name }}
-        version: ${{ inputs.version || env.version }}
-        environment: ${{ inputs.environment || env.environment }}
-        application_instance: ${{ inputs.application_instance || env.application_instance }}
+# name: "record-release"
+# description: "Record release of an application to an environment"
+parameters:
+  - name: broker_url # "The url of your pact broker"
+    default: ""
+  - name: token # "Your pact broker token (required for PactFlow)"
+    default: ""
+  - name: username # "Your pact broker username"
+    default: ""
+  - name: password # "Your pact broker password"
+    default: ""
+  - name: application_name # "The name of your application (usually project name)"
+    default: false
+  - name: environment # "The name of the environment that the pacticipant version was deployed to"
+    default: ""
+  - name: version # "The version of your application (defaults to version of the code where the action is run from)"
+    default: ""
+steps:
+- script: |
+    ./templates/scripts/recordRelease.sh
+  displayName: Record Release
+  env: 
+    PACT_BROKER_BASE_URL: ${{ coalesce(parameters.broker_url, variables.PACT_BROKER_BASE_URL) }}
+    PACT_BROKER_TOKEN: ${{ coalesce(parameters.token, variables.PACT_BROKER_TOKEN) }}
+    PACT_BROKER_USERNAME: ${{ coalesce(parameters.username, variables.PACT_BROKER_USERNAME) }}
+    PACT_BROKER_PASSWORD: ${{ coalesce(parameters.password, variables.PACT_BROKER_PASSWORD) }}
+    application_name: ${{ coalesce(parameters.application_name , variables.application_name) }}
+    environment: ${{ coalesce(parameters.environment , variables.environment) }}
+    COMMIT: ${{ coalesce(parameters.version, variables.COMMIT) }}

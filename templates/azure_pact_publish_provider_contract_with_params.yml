@@ -1,72 +1,65 @@
-# TODO
+# TO TEST
 
-name: "publish-provider-contract"
-description: "Publishes an OAS and test results to Pactflow (requires checkout action first)"
-branding:
-  icon: "upload"
-  color: "green"
-inputs:
-  broker_url:
-    description: "The url of your pact broker"
-    required: true
-  token:
-    description: "Your pact broker token (required for PactFlow)"
-  username:
-    description: "Your pact broker username"
-  password:
-    description: "Your pact broker password"
-  application_name:
-    description: "The name of your application (usually project name)"
-    required: true
-  contract:
-    description: "Location of the contract file"
-    required: true
-  specification:
-      description: "The contract specification Default: oas"
-  contract_content_type:
-    description: "The content type. eg. application/yml or application/json. defaults to application/yml"
-  verification_exit_code:
-    description: "The exit code of the verification process, 0 success, anything else failure"
-  verification_results:
-    description: "Location of the test evidence file"
-    required: true
-  verification_results_content_type:
-    description: "The content type of the verification output eg. text/plain,application/yaml"
-  verification_results_format:
-    description: "The format of the verification output eg. junit, text"
-  verifier:
-    description: "The tool used to verify the provider contract"
-  verifier_version:
-    description: "The version of the tool used to verify the provider contract"  
-  build_url:
-    description: "The build URL that created the provider contract"
-  version:
-    description: "The provider application version"
-  branch:
-    description: "Repository branch of the provider version"
-  tag:
-    description: "Tag name for provider version. Can be specified multiple times, with comma separated values"
-runs:
-  using: "composite"
-  steps:
-    - run: ${GITHUB_ACTION_PATH}/publishOAS.sh
-      shell: bash
-      env: 
-        PACT_BROKER_BASE_URL: ${{ inputs.broker_url || env.PACT_BROKER_BASE_URL }} 
-        PACT_BROKER_TOKEN: ${{ inputs.token || env.PACT_BROKER_TOKEN }} 
-        PACT_BROKER_USERNAME: ${{ inputs.username || env.PACT_BROKER_USERNAME }} 
-        PACT_BROKER_PASSWORD: ${{ inputs.password || env.PACT_BROKER_PASSWORD }} 
-        application_name: ${{ inputs.application_name || env.application_name }}
-        contract: ${{ inputs.contract || env.oas_file }}
-        specification: ${{ inputs.specification }}
-        contract_content_type: ${{ inputs.contract_content_type || env.oas_file_content_type }}
-        verification_exit_code: ${{ inputs.verification_exit_code || env.EXIT_CODE }}
-        verification_results: ${{ inputs.verification_results || env.results_file }}
-        verification_results_content_type: ${{ inputs.verification_results_content_type || env.REPORT_FILE_CONTENT_TYPE }}
-        verification_results_format: ${{ inputs.verification_results_format }}
-        verifier_version: ${{ inputs.verifier_version }}
-        verifier: ${{ inputs.verifier || env.VERIFIER_TOOL }}
-        build_url: ${{ inputs.build_url }}
-        version: ${{ inputs.version || env.version }}
-        branch: ${{ inputs.branch || env.branch }}
-        tag: ${{ inputs.tag }}
+# name: "publish-provider-contract"
+# description: "Publishes an OAS and test results to Pactflow (requires checkout action first)"
+
+parameters:
+  - name: broker_url # "The url of your pact broker"
+    default: ""
+  - name: token # description: "Your pact broker token (required for PactFlow)"
+    default: ""
+  - name: username # description: "Your pact broker username"
+    default: ""
+  - name: password # description: "Your pact broker password"
+    default: ""
+  - name: application_name # "The name of your application (usually project name)"
+    default: false
+  - name: contract # "Location of the contract file"
+    default: false
+  - name: specification # "The contract specification Default: oas"
+    default: ""
+  - name: contract_content_type # "The content type. eg. application/yml or application/json. defaults to application/yml"
+    default: ""
+  - name: verification_exit_code # "The exit code of the verification process, 0 success, anything else failure"
+    default: ""
+  - name: verification_results # "Location of the test evidence file"
+    default: false
+  - name: verification_results_content_type # "The content type of the verification output eg. text/plain,application/yaml"
+    default: ""
+  - name: verification_results_format # "The format of the verification output eg. junit, text"
+    default: ""
+  - name: verifier # "The tool used to verify the provider contract"
+    default: ""
+  - name: verifier_version # "The version of the tool used to verify the provider contract"  
+    default: ""
+  - name: build_url # description: "uri to the pipeline build"
+    default: ""
+  - name: version # description: "Version to publish"
+    default: ""
+  - name: branch # description: "branch to associate version of pact with"  
+    default: ""
+  - name: tag # description: "tag to associate version of pact with"
+    default: ""
+steps:
+- script: |
+    ./templates/scripts/publishOAS.sh
+  displayName: Record Deployment
+  env: 
+    PACT_BROKER_BASE_URL: ${{ coalesce(parameters.broker_url, variables.PACT_BROKER_BASE_URL) }}
+    PACT_BROKER_TOKEN: ${{ coalesce(parameters.token, variables.PACT_BROKER_TOKEN) }}
+    PACT_BROKER_USERNAME: ${{ coalesce(parameters.username, variables.PACT_BROKER_USERNAME) }}
+    PACT_BROKER_PASSWORD: ${{ coalesce(parameters.password, variables.PACT_BROKER_PASSWORD) }}
+    application_name: ${{ coalesce(parameters.application_name , variables.application_name) }}
+    BUILD_URI: ${{ coalesce(parameters.build_url, variables.BUILD_URI) }}
+    COMMIT: ${{ coalesce(parameters.version, variables.COMMIT) }}
+    BRANCH: ${{ coalesce(parameters.branch, variables.BRANCH) }}
+    tag: ${{ coalesce(parameters.tag, variables.tag) }}
+    contract: ${{ coalesce(parameters.contract , variables.oas_file) }}
+    specification: ${{ parameters.specification }}
+    contract_content_type: ${{ coalesce(parameters.contract_content_type , variables.oas_file_content_type) }}
+    verification_exit_code: ${{ coalesce(parameters.verification_exit_code , variables.EXIT_CODE) }}
+    verification_results: ${{ coalesce(parameters.verification_results , variables.results_file) }}
+    verification_results_content_type: ${{ coalesce(parameters.verification_results_content_type , variables.REPORT_FILE_CONTENT_TYPE) }}
+    verification_results_format: ${{ parameters.verification_results_format }}
+    verifier_version: ${{ parameters.verifier_version }}
+    verifier: ${{ coalesce(parameters.verifier , variables.VERIFIER_TOOL) }}

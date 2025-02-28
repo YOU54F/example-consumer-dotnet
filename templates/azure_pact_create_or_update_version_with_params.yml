@@ -1,39 +1,36 @@
-# TODO
+# TO TEST
 
-name: "create-or-update-version"
-description: "Create or update pacticipant version by version number"
-branding:
-  icon: "check"
-  color: "green"
-inputs:
-  broker_url:
-    description: "The url of your pact broker"
-    required: true
-  token:
-    description: "Your pact broker token (required for PactFlow)"
-  username:
-    description: "Your pact broker username"
-  password:
-    description: "Your pact broker password"
-  application_name:
-    description: "The name of your application (usually project name)"
-    required: true
-  version:
-    description: "The version of your application (defaults to version of the code where the action is run from)"
-  branch:
-    description: "The repository branch name"
-  tag:
-    description: "Tag name for pacticipant version."
-runs:
-  using: "composite"
-  steps:
-    - run: ${GITHUB_ACTION_PATH}/createOrUpdateVersion.sh
-      shell: bash
-      env: 
-        PACT_BROKER_BASE_URL: ${{ inputs.broker_url || env.PACT_BROKER_BASE_URL }} 
-        PACT_BROKER_TOKEN: ${{ inputs.token || env.PACT_BROKER_TOKEN }} 
-        PACT_BROKER_USERNAME: ${{ inputs.username || env.PACT_BROKER_USERNAME }} 
-        PACT_BROKER_PASSWORD: ${{ inputs.password || env.PACT_BROKER_PASSWORD }} 
-        application_name: ${{ inputs.application_name || env.application_name }}
-        version: ${{ inputs.version || env.version }}
-        branch: ${{ inputs.branch }}
+# name: "create-or-update-version"
+# description: "Create or update pacticipant version by version number"
+
+parameters:
+  - name: broker_url # "The url of your pact broker"
+    default: ""
+  - name: token # description: "Your pact broker token (required for PactFlow)"
+    default: ""
+  - name: username # description: "Your pact broker username"
+    default: ""
+  - name: password # description: "Your pact broker password"
+    default: ""
+  - name: application_name # "The name of your application (usually project name)"
+    default: false
+  - name: version # "The version of your application (defaults to version of the code where the action is run from)"
+    default: ""
+  - name: branch # "The repository branch name"
+    default: ""
+  - name: tag # "Tag name for pacticipant version."
+    default: ""
+
+steps:
+- script: |
+    ./templates/scripts/createOrUpdateVersion.sh
+  displayName: Create or Update Version
+  env:
+    PACT_BROKER_BASE_URL: ${{ inputs.broker_url || env.PACT_BROKER_BASE_URL }} 
+    PACT_BROKER_TOKEN: ${{ inputs.token || env.PACT_BROKER_TOKEN }} 
+    PACT_BROKER_USERNAME: ${{ inputs.username || env.PACT_BROKER_USERNAME }} 
+    PACT_BROKER_PASSWORD: ${{ inputs.password || env.PACT_BROKER_PASSWORD }} 
+    application_name: ${{ coalesce(parameters.application_name , variables.application_name) }}
+    COMMIT: ${{ coalesce(parameters.version, variables.COMMIT) }}
+    BRANCH: ${{ coalesce(parameters.branch, variables.BRANCH) }}
+

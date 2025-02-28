@@ -17,7 +17,7 @@ parameters:
     default: ""
   - name: tag_with_git_branch # description: "tag pact with git branch"
     default: ""
-  - name: build_uri # description: "uri to the pipeline build"
+  - name: build_url # description: "uri to the pipeline build"
     default: ""
 
 steps:
@@ -31,7 +31,7 @@ steps:
     PACT_BROKER_PASSWORD: ${{ coalesce(parameters.password, variables.PACT_BROKER_PASSWORD) }}
     COMMIT: ${{ coalesce(parameters.version, variables.COMMIT) }}
     BRANCH: ${{ coalesce(parameters.branch, variables.BRANCH) }}
-    BUILD_URI: ${{ coalesce(parameters.build_uri, variables.BUILD_URI) }}
+    BUILD_URI: ${{ coalesce(parameters.build_url, variables.BUILD_URI) }}
     pactfiles: ${{ parameters.pactfiles }}
     tag: ${{ coalesce(parameters.tag, variables.tag) }}
     tag_with_git_branch: ${{ parameters.tag_with_git_branch }}

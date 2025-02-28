@@ -66,9 +66,9 @@ if [ "$main_branch" == "true" ]; then
 fi
 
 BRANCH_COMMAND=
-if [ "$branch" ]; then
+if [ "$BRANCH" ]; then
   echo "You set branch"
-  BRANCH_COMMAND="--branch $branch"
+  BRANCH_COMMAND="--branch $BRANCH"
 fi
 
 IGNORE_COMMAND=
