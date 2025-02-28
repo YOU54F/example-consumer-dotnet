@@ -41,9 +41,9 @@ parameters:
 steps:
 - script: |
     ls ./templates/
-    cat templates/publishPactFiles.sh
+    cat templates/foo.sh
     pwd
-    ./templates/publishPactFiles.sh
+    ./templates/foo.sh
   displayName: ✉️  Publish Pacts
   env:
     # PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
