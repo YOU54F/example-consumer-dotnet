@@ -43,15 +43,15 @@ steps:
   displayName: ✉️  Publish Pacts
   env:
     # PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
-    PACT_BROKER_BASE_URL: ${{ coalesce(parameters.broker_url, $(PACT_BROKER_BASE_URL)) }}
-    PACT_BROKER_TOKEN: ${{ coalesce(parameters.token, $(PACT_BROKER_TOKEN)) }}
-    PACT_BROKER_USERNAME: ${{ coalesce(parameters.username, $(PACT_BROKER_USERNAME)) }}
-    PACT_BROKER_PASSWORD: ${{ coalesce(parameters.password, $(PACT_BROKER_PASSWORD)) }}
+    PACT_BROKER_BASE_URL: ${{ coalesce(parameters.broker_url, variables.PACT_BROKER_BASE_URL) }}
+    PACT_BROKER_TOKEN: ${{ coalesce(parameters.token, variables.PACT_BROKER_TOKEN) }}
+    PACT_BROKER_USERNAME: ${{ coalesce(parameters.username, variables.PACT_BROKER_USERNAME) }}
+    PACT_BROKER_PASSWORD: ${{ coalesce(parameters.password, variables.PACT_BROKER_PASSWORD) }}
     pactfiles: ${{ parameters.pactfiles }}
-    version: ${{ coalesce(parameters.version, $(COMMIT)) }}
-    tag: ${{ coalesce(parameters.tag, $(tag)) }}
-    branch: ${{ coalesce(parameters.branch, $(BRANCH)) }}
+    version: ${{ coalesce(parameters.version, variables.COMMIT) }}
+    tag: ${{ coalesce(parameters.tag, variables.tag) }}
+    branch: ${{ coalesce(parameters.branch, variables.BRANCH) }}
     tag_with_git_branch: ${{ parameters.tag_with_git_branch }}
-    build_uri: ${{ coalesce(parameters.build_uri, $(BUILD_URI)) }}
+    build_uri: ${{ coalesce(parameters.build_uri, variables.BUILD_URI) }}
 
     
