@@ -7,19 +7,27 @@ parameters:
     # required: true
   - name: token
     # description: "Your pact broker token (required for PactFlow)"
+    default: ""
   - name: username
+    default: ""
     # description: "Your pact broker username"
   - name: password
+    default: ""
     # description: "Your pact broker password"
   - name: version
+    default: ""
     # description: "Version to publish"
   - name: branch
+    default: ""
     # description: "branch to associate version of pact with"  
   - name: tag
+    default: ""
     # description: "tag to associate version of pact with"
   - name: tag_with_git_branch
+    default: ""
     # description: "tag pact with git branch"
   - name: build_uri
+    default: ""
     # description: "uri to the pipeline build"
 
 # variables:
