@@ -7,8 +7,16 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
+  - name: PACTICIPANT
+    value: "pactflow-example-consumer-dotnet"
+  - name: PACT_BROKER_BASE_URL
+    value: https://testdemo.pactflow.io
   - name: GIT_BRANCH
     value: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+  - name: GIT_COMMIT
+    value: $(Build.SourceVersion)
+  - name: BUILD_URI
+    value: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
 
 steps:
 - script: |
@@ -29,11 +37,11 @@ steps:
         --build-url ${BUILD_URI}
   displayName: ✉️  Publish Pacts
   env:
-    PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
     PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
-    GIT_COMMIT: $(Build.SourceVersion)
-    GIT_BRANCH: $(Build.SourceBranchName)
-    BUILD_URI: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
+    # PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
+    # GIT_COMMIT: $(Build.SourceVersion)
+    # GIT_BRANCH: $(GIT_BRANCH)
+    # BUILD_URI: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
 
 - script: |
     docker run \
@@ -49,10 +57,10 @@ steps:
     	  --retry-interval 10
   displayName: 🎛  Can I deploy?
   env:
-    PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
     PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
-    GIT_COMMIT: $(Build.SourceVersion)
-    PACTICIPANT: "pactflow-example-consumer-dotnet"
+    # PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
+    # GIT_COMMIT: $(Build.SourceVersion)
+    # PACTICIPANT: "pactflow-example-consumer-dotnet"
 
 - script: |
     docker run \
@@ -66,7 +74,7 @@ steps:
           --environment production
   displayName: 🚀  Deploy
   env:
-    PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
     PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
-    GIT_COMMIT: $(Build.SourceVersion)
-    PACTICIPANT: "pactflow-example-consumer-dotnet"
+    # PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
+    # GIT_COMMIT: $(Build.SourceVersion)
+    # PACTICIPANT: "pactflow-example-consumer-dotnet"
