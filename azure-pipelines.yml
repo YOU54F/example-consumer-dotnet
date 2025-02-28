@@ -1,7 +1,6 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+# Pact consumer workflow
+# Test (Generate pacts) -> Publish pacts -> Can-I-Deploy to Prod (with Polling) -> Record Deployment (master branch)
+# Webhooks are setup for provider, to trigger on contract_requiring_verification_published
 
 pool:
   vmImage: ubuntu-latest
@@ -38,10 +37,6 @@ steps:
   displayName: ✉️  Publish Pacts
   env:
     PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
-    # PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
-    # GIT_COMMIT: $(Build.SourceVersion)
-    # GIT_BRANCH: $(GIT_BRANCH)
-    # BUILD_URI: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
 
 - script: |
     docker run \
@@ -58,9 +53,6 @@ steps:
   displayName: 🎛  Can I deploy?
   env:
     PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
-    # PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
-    # GIT_COMMIT: $(Build.SourceVersion)
-    # PACTICIPANT: "pactflow-example-consumer-dotnet"
 
 - script: |
     docker run \
@@ -75,6 +67,3 @@ steps:
   displayName: 🚀  Deploy
   env:
     PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
-    # PACT_BROKER_BASE_URL: https://testdemo.pactflow.io
-    # GIT_COMMIT: $(Build.SourceVersion)
-    # PACTICIPANT: "pactflow-example-consumer-dotnet"
