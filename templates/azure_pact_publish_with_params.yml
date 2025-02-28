@@ -30,10 +30,10 @@ parameters:
     default: ""
     # description: "uri to the pipeline build"
 
-# variables:
-#   BRANCH: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
-#   COMMIT: $(Build.SourceVersion)
-#   BUILD_URI: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
+variables:
+  BRANCH: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
+  COMMIT: $(Build.SourceVersion)
+  BUILD_URI: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
 
 steps:
 - script: ./templates/publishPactFiles.sh
