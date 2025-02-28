@@ -6,6 +6,6 @@ parameters:
 
 steps:
 - script: |
-    curl -sSL https://github.com/YOU54F/pact-core-mock-server/blob/main/scripts/install-pact_mock_server_cli.sh | bash
+    curl -sSL https://raw.githubusercontent.com/YOU54F/pact-core-mock-server/refs/heads/main/scripts/install-pact_mock_server_cli.sh | bash
     echo '##vso[task.prependpath]$HOME/.pact/bin'
   displayName: Setup Pact Mock Server CLI

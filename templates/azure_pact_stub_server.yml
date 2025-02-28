@@ -6,6 +6,6 @@ parameters:
 
 steps:
 - script: |
-    curl -sSL https://github.com/YOU54F/pact-stub-server/blob/master/scripts/install-stub-server-cli.sh | bash
+    curl -sSL https://raw.githubusercontent.com/YOU54F/pact-stub-server/refs/heads/master/scripts/install-stub-server-cli.sh | bash
     echo '##vso[task.prependpath]$HOME/.pact/bin'
   displayName: Setup Pact Stub Server
