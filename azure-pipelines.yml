@@ -27,11 +27,11 @@ steps:
 - template: templates/azure_pact_publish_with_params.yml@self
   parameters:
     pactfiles: pacts
-    broker_url: $(PACT_BROKER_BASE_URL)
+    # broker_url: $(PACT_BROKER_BASE_URL)
     token: $(PACT_BROKER_TOKEN)
-    branch: $(BRANCH)
-    version: $(COMMIT)
-    build_uri: $(BUILD_URI)
+    # branch: $(BRANCH)
+    # version: $(COMMIT)
+    # build_uri: $(BUILD_URI)
 - template: templates/azure_pact_can_i_deploy.yml
 - template: templates/azure_pact_record_deployment.yml
 
