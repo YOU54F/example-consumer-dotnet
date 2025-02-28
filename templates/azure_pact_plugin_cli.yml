@@ -7,6 +7,5 @@ parameters:
 steps:
 - script: |
     curl -sSL https://raw.githubusercontent.com/pact-foundation/pact-plugins/refs/heads/main/scripts/install-plugin-cli.sh | bash
-    echo $HOME
-    echo '##vso[task.prependpath]$HOME/vsts/.pact/bin'
+    echo '##vso[task.prependpath]/home/vsts/.pact/bin'
   displayName: Setup Pact Plugin CLI
