@@ -40,7 +40,7 @@ steps:
     printenv
     ./templates/publishPactFiles.sh
   displayName: ✉️  Publish Pacts
-  env:
+  # env:
     # PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
     # PACT_BROKER_BASE_URL: ${{ coalesce(parameters.broker_url, variables.PACT_BROKER_BASE_URL) }}
     # PACT_BROKER_TOKEN: ${{ coalesce(parameters.token, variables.PACT_BROKER_TOKEN) }}
