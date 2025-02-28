@@ -47,7 +47,7 @@ steps:
     # PACT_BROKER_TOKEN: ${{ coalesce(parameters.token, variables.PACT_BROKER_TOKEN) }}
     # PACT_BROKER_USERNAME: ${{ coalesce(parameters.username, variables.PACT_BROKER_USERNAME) }}
     # PACT_BROKER_PASSWORD: ${{ coalesce(parameters.password, variables.PACT_BROKER_PASSWORD) }}
-    # pactfiles: ${{ parameters.pactfiles }}
+    pactfiles: ${{ parameters.pactfiles }}
     version: ${{ coalesce(parameters.version, variables.COMMIT) }}
     # tag: ${{ coalesce(parameters.tag, variables.tag) }}
     branch: ${{ coalesce(parameters.branch, variables.BRANCH) }}
