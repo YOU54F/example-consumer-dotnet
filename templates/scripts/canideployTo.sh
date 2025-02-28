@@ -69,9 +69,9 @@ fi
 # {"errors":["A version number and latest flag cannot both be specified for pactflow-example-consumer-dotnet"]}
 
 BRANCH_COMMAND=
-if [ "$BRANCH" ]; then
+if [ "$branch" ]; then
   echo "You set branch"
-  BRANCH_COMMAND="--branch $BRANCH"
+  BRANCH_COMMAND="--branch $branch"
 fi
 
 IGNORE_COMMAND=
