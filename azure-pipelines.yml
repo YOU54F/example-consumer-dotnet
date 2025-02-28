@@ -30,7 +30,7 @@ steps:
     broker_url: $(PACT_BROKER_BASE_URL)
     token: $(PACT_BROKER_TOKEN)
     branch: $(BRANCH)
-    commit: $(COMMIT)
+    version: $(COMMIT)
     build_uri: $(BUILD_URI)
 - template: templates/azure_pact_can_i_deploy.yml
 - template: templates/azure_pact_record_deployment.yml
