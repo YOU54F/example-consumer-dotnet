@@ -28,8 +28,8 @@ parameters:
     PACT_BROKER_TOKEN: ${{ coalesce(parameters.token, variables.PACT_BROKER_TOKEN) }}
     PACT_BROKER_USERNAME: ${{ coalesce(parameters.username, variables.PACT_BROKER_USERNAME) }}
     PACT_BROKER_PASSWORD: ${{ coalesce(parameters.password, variables.PACT_BROKER_PASSWORD) }}
-    application_name: ${{ coalesce(parameters.application_name || variables.application_name }}
-    environment: ${{ coalesce(parameters.environment || variables.environment }}
+    application_name: ${{ coalesce(parameters.application_name , variables.application_name }}
+    environment: ${{ coalesce(parameters.environment , variables.environment }}
     COMMIT: ${{ coalesce(parameters.version, variables.COMMIT) }}
-    application_instance: ${{ coalesce(parameters.application_instance || variables.application_instance }}
+    application_instance: ${{ coalesce(parameters.application_instance , variables.application_instance }}
 
