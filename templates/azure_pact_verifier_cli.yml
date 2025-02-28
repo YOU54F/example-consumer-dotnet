@@ -1,0 +1,11 @@
+# name: pact_verifier_cli
+# https://github.com/pact-foundation/pact-reference/tree/master/rust/pact_verifier_cli
+parameters:
+  - name: PACT_VERIFIER_CLI_VERSION
+    default: "" 
+
+steps:
+- script: |
+    curl -sSL https://github.com/YOU54F/pact-reference/blob/master/scripts/install-pact_verifier_cli.sh | bash
+    echo '##vso[task.prependpath]$HOME/.pact/bin'
+  displayName: Setup Pact Verifier CLI

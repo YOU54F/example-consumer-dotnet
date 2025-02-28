@@ -1,0 +1,11 @@
+# name: pact-plugin-cli
+# https://github.com/pact-foundation/pact-plugins/tree/main/cli
+parameters:
+  - name: PACT_PLUGIN_CLI_VERSION
+    default: "" 
+
+steps:
+- script: |
+    curl -sSL https://github.com/pact-foundation/pact-plugins/blob/main/scripts/install-plugin-cli.sh | bash
+    echo '##vso[task.prependpath]$HOME/.pact/bin'
+  displayName: Setup Pact Plugin CLI

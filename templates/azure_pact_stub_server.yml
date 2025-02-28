@@ -1,0 +1,11 @@
+# name: pact-stub-server
+# https://github.com/pact-foundation/pact-stub-server
+parameters:
+  - name: PACT_STUB_SERVER_VERSION
+    default: "" 
+
+steps:
+- script: |
+    curl -sSL https://github.com/YOU54F/pact-stub-server/blob/master/scripts/install-stub-server-cli.sh | bash
+    echo '##vso[task.prependpath]$HOME/.pact/bin'
+  displayName: Setup Pact Stub Server

@@ -19,6 +19,16 @@ steps:
 - script: pact-broker version
   displayName: "pact-broker version"
 
+
+## Setup Rust based CLI's
+
+- template: templates/azure_pact_plugin_cli.yml@self
+- template: templates/azure_pact_mock_server_cli.yml@self
+- template: templates/azure_pact_stub_server.yml@self
+- template: templates/azure_pact_verifier_cli.yml@self
+
+## Run tests
+
 - script: |
     dotnet test tests
   displayName: ✅  Test

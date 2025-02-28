@@ -1,0 +1,11 @@
+# name: pact_mock_server_cli
+# https://github.com/pact-foundation/pact-core-mock-server/tree/main/pact_mock_server_cli
+parameters:
+  - name: PACT_MOCK_SERVER_CLI_VERSION
+    default: "" 
+
+steps:
+- script: |
+    curl -sSL https://github.com/YOU54F/pact-core-mock-server/blob/main/scripts/install-pact_mock_server_cli.sh | bash
+    echo '##vso[task.prependpath]$HOME/.pact/bin'
+  displayName: Setup Pact Mock Server CLI
