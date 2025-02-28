@@ -8,4 +8,4 @@ steps:
 - script: |
     ./templates/scripts/cli.sh
   displayName: Setup Pact CLI
-- script: Write-Host "##vso[task.prependpath]$(Build.SourcesDirectory)/pact/bin"
+- script: echo '##vso[task.prependpath]/pact/bin'
