@@ -22,7 +22,7 @@ resources:
 
 steps:
 # Run tests
-
+- checkout: self
 - script: |
     pwd
     ls
