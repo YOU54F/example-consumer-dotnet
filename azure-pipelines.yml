@@ -26,7 +26,8 @@ steps:
 - script: |
     pwd
     ls
-    ls $(build.sourcesdirectory)
+    ls $(build.sourcesdirectory)/azure-pipelines-templates
+    cd example-consumer-dotnet
     # dotnet test tests
   displayName: ✅  Test
 
