@@ -32,7 +32,7 @@ steps:
 
 - template: templates/azure_pact_publish.yml@pact_templates
   parameters:
-    pactfiles: pacts
+    pactfiles: example-consumer-dotnet/pacts
     token: $(PACT_BROKER_TOKEN) # token should be set as secret variable, in users pipeline
 - template: templates/azure_pact_can_i_deploy.yml@pact_templates
   parameters:
