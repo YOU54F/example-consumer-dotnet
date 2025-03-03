@@ -24,6 +24,7 @@ steps:
 # Run tests
 
 - script: |
+    ls
     dotnet test tests
   displayName: ✅  Test
 
