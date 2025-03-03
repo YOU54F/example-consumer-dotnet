@@ -1,4 +1,0 @@
-variables:
-  BRANCH: $[replace(variables['Build.SourceBranch'], 'refs/heads/', '')]
-  COMMIT: $(Build.SourceVersion)
-  BUILD_URI: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'
