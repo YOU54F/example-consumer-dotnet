@@ -21,37 +21,13 @@ resources:
       # ref: refs/heads/templates # point to a commit / branch / tag
 
 steps:
-
-# Setup Rust based CLI's
-
-- template: templates/azure_pact_plugin_cli.yml@pact_templates
-- script: pact-plugin-cli --help
-  displayName: pact_plugin_cli
-
-- template: templates/azure_pact_mock_server_cli.yml@pact_templates
-- script: pact_mock_server_cli --help
-  displayName: pact_mock_server_cli
-
-- template: templates/azure_pact_stub_server_cli.yml@pact_templates
-- script: pact-stub-server --help
-  displayName: pact-stub-server
-
-- template: templates/azure_pact_verifier_cli.yml@pact_templates
-- script: pact_verifier_cli --help
-  displayName: pact_verifier_cli
-
-# Setup Pact CLI
-- template: templates/azure_pact_cli.yml@pact_templates
-- script: pact-broker version
-  displayName: "pact-broker version"
-
 # Run tests
 
 - script: |
     dotnet test tests
   displayName: ✅  Test
 
-# Executing recommend workflow manually, via re-usable templates in same repo, with inputs.
+# Executing recommend workflow manually, via re-usable templates
 
 - template: templates/azure_pact_publish.yml@pact_templates
   parameters:
@@ -67,9 +43,3 @@ steps:
     environment: production
     application_name: $(PACTICIPANT)
     token: $(PACT_BROKER_TOKEN)
-
-## Executing recommend workflow manually, via templates in same repo, following below docker commands
-
-# - template: templates/azure_pact_publish.yml
-# - template: templates/azure_pact_can_i_deploy.yml
-# - template: templates/azure_pact_record_deployment.yml
