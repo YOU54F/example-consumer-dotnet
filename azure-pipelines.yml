@@ -24,7 +24,9 @@ steps:
 # Run tests
 
 - script: |
+    pwd
     ls
+    ls $(build.sourcesdirectory)
     # dotnet test tests
   displayName: ✅  Test
 
