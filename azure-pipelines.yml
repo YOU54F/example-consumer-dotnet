@@ -24,12 +24,9 @@ steps:
 # Run tests
 - checkout: self
 - script: |
-    pwd
-    ls
-    ls $(build.sourcesdirectory)/azure-pipelines-templates
-    cd example-consumer-dotnet
-    # dotnet test tests
+    dotnet test tests
   displayName: ✅  Test
+  workingDirectory: example-consumer-dotnet
 
 # Executing recommend workflow manually, via re-usable templates
 
