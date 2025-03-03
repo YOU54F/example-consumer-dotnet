@@ -38,8 +38,9 @@ steps:
     to_environment: production
     application_name: $(PACTICIPANT)
     token: $(PACT_BROKER_TOKEN)
-- template: templates/azure_pact_record_deployment.yml@pact_templates
-  parameters:
-    environment: production
-    application_name: $(PACTICIPANT)
-    token: $(PACT_BROKER_TOKEN)
+- ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
+  - template: templates/azure_pact_record_deployment.yml@pact_templates
+    parameters:
+      environment: production
+      application_name: $(PACTICIPANT)
+      token: $(PACT_BROKER_TOKEN)
