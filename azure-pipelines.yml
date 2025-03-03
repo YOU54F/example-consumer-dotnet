@@ -17,26 +17,22 @@ resources:
     - repository: pact_templates
       type: github
       name: you54f/azure-pipelines-templates
-      # ref: refs/heads/templates
-      endpoint: azure-templates-pact-github
+      endpoint: azure-templates-pact-github # azure service connection to allow read-only access to github repo
+      # ref: refs/heads/templates # point to a commit / branch / tag
 
 steps:
 
-
-## Setup Rust based CLI's
+# Setup Rust based CLI's
 
 - template: templates/azure_pact_plugin_cli.yml@pact_templates
-
 - script: pact-plugin-cli --help
   displayName: pact_plugin_cli
 
 - template: templates/azure_pact_mock_server_cli.yml@pact_templates
-
 - script: pact_mock_server_cli --help
   displayName: pact_mock_server_cli
 
 - template: templates/azure_pact_stub_server_cli.yml@pact_templates
-
 - script: pact-stub-server --help
   displayName: pact-stub-server
 
@@ -44,85 +40,36 @@ steps:
 - script: pact_verifier_cli --help
   displayName: pact_verifier_cli
 
-## Setup Pact CLI
+# Setup Pact CLI
 - template: templates/azure_pact_cli.yml@pact_templates
 - script: pact-broker version
   displayName: "pact-broker version"
 
-# ## Run tests
+# Run tests
 
-# - script: |
-#     dotnet test tests
-#   displayName: ✅  Test
+- script: |
+    dotnet test tests
+  displayName: ✅  Test
 
-# ## Executing recommend workflow manually, via re-usable templates in same repo, with inputs.
+# Executing recommend workflow manually, via re-usable templates in same repo, with inputs.
 
-# - template: templates/azure_pact_publish_with_params.yml@self # by default it uses main, use self to read from current repo
-#   parameters:
-#     pactfiles: pacts
-#     token: $(PACT_BROKER_TOKEN) # token should be set as secret variable, in users pipeline
-# - template: templates/azure_pact_can_i_deploy_with_params.yml
-#   parameters:
-#     to_environment: production
-#     application_name: $(PACTICIPANT)
-#     token: $(PACT_BROKER_TOKEN)
-# - template: templates/azure_pact_record_deployment_with_params.yml
-#   parameters:
-#     environment: production
-#     application_name: $(PACTICIPANT)
-#     token: $(PACT_BROKER_TOKEN)
+- template: templates/azure_pact_publish.yml@pact_templates
+  parameters:
+    pactfiles: pacts
+    token: $(PACT_BROKER_TOKEN) # token should be set as secret variable, in users pipeline
+- template: templates/azure_pact_can_i_deploy.yml@pact_templates
+  parameters:
+    to_environment: production
+    application_name: $(PACTICIPANT)
+    token: $(PACT_BROKER_TOKEN)
+- template: templates/azure_pact_record_deployment.yml@pact_templates
+  parameters:
+    environment: production
+    application_name: $(PACTICIPANT)
+    token: $(PACT_BROKER_TOKEN)
 
 ## Executing recommend workflow manually, via templates in same repo, following below docker commands
 
 # - template: templates/azure_pact_publish.yml
 # - template: templates/azure_pact_can_i_deploy.yml
 # - template: templates/azure_pact_record_deployment.yml
-
-## Executing recommend workflow manually, via docker
-# Publish pacts -> Can-I-Deploy to Prod (with Polling) -> Record Deployment (master branch)
-
-# - script: |
-#     docker run \
-#       --rm \
-#       -v ${PWD}:${PWD} \
-#       -w ${PWD} \
-#       -e PACT_BROKER_BASE_URL \
-#       -e PACT_BROKER_TOKEN pactfoundation/pact-cli:latest \
-#       broker publish \
-#           pacts \
-#         --consumer-app-version ${GIT_COMMIT} \
-#         --branch ${GIT_BRANCH} \
-#         --build-url ${BUILD_URI}
-#   displayName: ✉️  Publish Pacts
-#   env:
-#     PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
-
-# - script: |
-#     docker run \
-#       --rm \
-#       -v ${PWD}:${PWD} \
-#       -e PACT_BROKER_BASE_URL \
-#       -e PACT_BROKER_TOKEN pactfoundation/pact-cli:latest \
-#       broker can-i-deploy \
-#         --pacticipant ${PACTICIPANT} \
-#         --version ${GIT_COMMIT} \
-#         --to-environment production \
-#     	  --retry-while-unknown 5 \
-#     	  --retry-interval 10
-#   displayName: 🎛  Can I deploy?
-#   env:
-#     PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
-
-# - script: |
-#     docker run \
-#       --rm \
-#       -v ${PWD}:${PWD} \
-#       -e PACT_BROKER_BASE_URL \
-#       -e PACT_BROKER_TOKEN pactfoundation/pact-cli:latest \
-#       broker record_deployment \
-#           --pacticipant ${PACTICIPANT} \
-#           --version ${GIT_COMMIT} \
-#           --environment production
-#   displayName: 🚀  Deploy
-#   env:
-#     PACT_BROKER_TOKEN: $(PACT_BROKER_TOKEN)
