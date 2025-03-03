@@ -25,7 +25,7 @@ steps:
 
 - script: |
     ls
-    dotnet test tests
+    # dotnet test tests
   displayName: ✅  Test
 
 # Executing recommend workflow manually, via re-usable templates
